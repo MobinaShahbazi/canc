@@ -13,7 +13,8 @@ class DoctorDAO(APIBaseClass):
 
         self.router.add_api_route('/Doctor', self.get, methods=['GET']) # when a GET request is made to the /workspaces path, the filter() method of the WorkspacesDAO class will be executed.
         self.router.add_api_route('/Doctor/create', self.create, methods=['POST'])
-        self.router.add_api_route('/Doctor/edit', self.update, methods=['POST'])
+        self.router.add_api_route('/Doctor/create_bulk', self.create_bulk, methods=['POST'])
+        self.router.add_api_route('/Doctor/update', self.update, methods=['POST'])
         self.router.add_api_route('/Doctor/delete', self.delete, methods=['DELETE']) 
 
     def get(self, id, db: Session = Depends(get_db)):
@@ -22,6 +23,10 @@ class DoctorDAO(APIBaseClass):
 
     def create(self, request_body: schemas.DoctorCreate, db: Session = Depends(get_db)):
         result = crud.doctor_crud.create(db=db, obj_in=request_body)
+        return result
+
+    def create_bulk(self, request_body: schemas.DoctorCreateBulk, db: Session = Depends(get_db) ):
+        result = crud.doctor_crud.create_bulk(db=db, objs_in=request_body)
         return result
 
     def update(self, code, request_body: schemas.DoctorUpdate, db: Session = Depends(get_db)):

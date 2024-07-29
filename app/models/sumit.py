@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, text
 from sqlalchemy import ForeignKeyConstraint, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -14,7 +14,8 @@ from app.db import Base
 class Doctor(Base):
     __tablename__ = 'Doctor'
 
-    id = Column(CHAR(10), primary_key=True, index=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True)
+
     # UUID(as_uuid=False), primary_key=True, index=True, default=uuid.uuid4
     name = Column(String(255), default='unnamed workspace')
     lastname = Column(String(255))

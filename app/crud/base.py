@@ -30,6 +30,20 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def get_multi(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
+    def create_bulk(self, db:Session,*,objs_in: List[CreateSchemaType]) -> List[ModelType]:     #??
+        result = []
+        obj_in_data = jsonable_encoder(objs_in) # is it dict?
+        doc_list = obj_in_data['values']
+        for doctor in doc_list:
+            db_obj = self.model(**doctor)
+            result.append(db_obj)
+            db.add(db_obj)
+            db.commit()
+            db.refresh(db_obj)
+        resultDict = {}
+        resultDict["values"] = result
+        return resultDict
+
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
 
         obj_in_data = jsonable_encoder(obj_in)

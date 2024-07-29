@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional, Type
+from typing import Dict, Any, Optional, Type, List
 from pydantic import BaseModel
 
 
@@ -14,6 +14,10 @@ class Doctor(BaseModel):
 
 class DoctorCreate(Doctor):
     pass
+
+class DoctorCreateBulk(BaseModel):
+
+    values: List[DoctorCreate]
 
 class DoctorUpdate(Doctor):
 
