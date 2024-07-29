@@ -11,7 +11,7 @@ class DoctorDAO(APIBaseClass):
     def __init__(self):
         super().__init__()
 
-        self.router.add_api_route('/Doctor', self.filter, methods=['GET']) # when a GET request is made to the /workspaces path, the filter() method of the WorkspacesDAO class will be executed.
+        self.router.add_api_route('/Doctor', self.get, methods=['GET']) # when a GET request is made to the /workspaces path, the filter() method of the WorkspacesDAO class will be executed.
         self.router.add_api_route('/Doctor/create', self.create, methods=['POST'])
         self.router.add_api_route('/Doctor/edit', self.update, methods=['POST'])
         self.router.add_api_route('/Doctor/delete', self.delete, methods=['DELETE']) 

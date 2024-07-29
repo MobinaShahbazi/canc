@@ -14,7 +14,8 @@ from app.db import Base
 class Doctor(Base):
     __tablename__ = 'Doctor'
 
-    id = Column(CHAR(36), primary_key=True, index=True, default=str(uuid.uuid4()))
+    id = Column(CHAR(10), primary_key=True, index=True, default=uuid.uuid4)
+    # UUID(as_uuid=False), primary_key=True, index=True, default=uuid.uuid4
     name = Column(String(255), default='unnamed workspace')
     lastname = Column(String(255))
     specialization = Column(String(255))
