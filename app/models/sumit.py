@@ -17,7 +17,7 @@ class Doctor(Base):
     id = Column(Integer, primary_key=True)
 
     # UUID(as_uuid=False), primary_key=True, index=True, default=uuid.uuid4
-    name = Column(String(255), default='unnamed workspace')
+    name = Column(String(255))
     lastname = Column(String(255))
     specialization = Column(String(255))
     code = Column(String(255))
