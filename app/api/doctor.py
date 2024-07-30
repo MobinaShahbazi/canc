@@ -34,7 +34,7 @@ class DoctorDAO(APIBaseClass):
         return result
 
     def delete(self, id, db: Session = Depends(get_db)):
-        result = crud.doctor_crud.delete(db=db, id=id)
+        result = crud.doctor_crud.delete_logical(db=db, id=id)
         return result
 
     def upsert_by_code(self, request_body: schemas.DoctorUpdate, db: Session = Depends(get_db)):

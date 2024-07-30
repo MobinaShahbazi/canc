@@ -27,7 +27,7 @@ class Doctor(Base):
     description: Mapped[Optional[str]] = mapped_column(String(255))
     address: Mapped[str] = mapped_column(String(255))           #should be removed
     phone: Mapped[str] = mapped_column(String(255))             #should be removed
-    isDeleted: Mapped[bool] = mapped_column(Boolean, default=False)
+    deleted: Mapped[bool] = mapped_column(Boolean, default=False)
 
     specialty_id: Mapped[int] = mapped_column(ForeignKey("Specialty.id"))
     specialty: Mapped["Specialty"] = relationship(back_populates="doctors")
@@ -39,7 +39,7 @@ class Specialty(Base):
     title: Mapped[str] = mapped_column(String(255))
     code: Mapped[str] = mapped_column(String(255))
     description: Mapped[Optional[str]] = mapped_column(String(255))
-    isDeleted: Mapped[bool] = mapped_column(Boolean, default=False)
+    deleted: Mapped[bool] = mapped_column(Boolean, default=False)
 
     doctors: Mapped[List["Doctor"]] = relationship(back_populates="specialty")
 
@@ -57,7 +57,7 @@ class Health_Service_Center(Base):
     phone: Mapped[str] = mapped_column(String(255))
     specialties: Mapped[List[str]] = mapped_column(ARRAY(String(255)))
     services: Mapped[List[str]] = mapped_column(ARRAY(String(255)))
-    isDeleted: Mapped[bool] = mapped_column(Boolean, default=False)
+    deleted: Mapped[bool] = mapped_column(Boolean, default=False)
 
     doctors: Mapped[List["Doctor"]] = relationship(secondary=association_table)
 

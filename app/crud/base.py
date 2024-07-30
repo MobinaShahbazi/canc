@@ -68,6 +68,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         return None
 
+    def delete_logical(self, db: Session, id: Any) -> List[ModelType]:
+        db.query(self.model).filter(self.model.id == id).update({'deleted': True})
+        db.commit()
+        return None
+
     def filter(self, db: Session,                     #///////
                model_class_list: list | None = None,
                filter_by_list: list | None = None,
