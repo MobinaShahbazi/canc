@@ -1,13 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, text, ARRAY, Table
-from sqlalchemy import ForeignKeyConstraint, UniqueConstraint, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.sql import func
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-import uuid
-from typing import Optional, List
-from sqlalchemy import Column, String, UniqueConstraint
-from sqlalchemy.dialects.mysql import CHAR
+import json
 
+from sqlalchemy import Column, Integer, String, Boolean, ARRAY, Table, ForeignKey, TypeDecorator
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 from app.db import Base
 
 association_table = Table(
@@ -16,51 +11,45 @@ association_table = Table(
     Column("Health_Service_Center_id", ForeignKey("Health_Service_Center.id")),
     Column("Doctor_id", ForeignKey("Doctor.id")),
 )
+
 class Doctor(Base):
     __tablename__ = 'Doctor'
-    __table_args__ = (UniqueConstraint('code', name='_unique_D_code'),)
-
-    id: Mapped[str] = mapped_column(Integer, primary_key=True, index=True)
-    name: Mapped[str] = mapped_column(String(255))
-    lastname: Mapped[str] = mapped_column(String(255))
-    code: Mapped[str] = mapped_column(String(255))
-    description: Mapped[Optional[str]] = mapped_column(String(255))
-    address: Mapped[str] = mapped_column(String(255))           #should be removed
-    phone: Mapped[str] = mapped_column(String(255))             #should be removed
-    deleted: Mapped[bool] = mapped_column(Boolean, default=False)
-
-    specialty_id: Mapped[int] = mapped_column(ForeignKey("Specialty.id"))
-    specialty: Mapped["Specialty"] = relationship(back_populates="doctors")
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255))
+    lastname = Column(String(255))
+    code = Column(String(255), unique=True)
+    description = Column(String(255))
+    specialty_id = Column(Integer, ForeignKey('Specialty.id'))  # ForeignKey relationship to Specialty
+    deleted = Column(Boolean, default=False)
+    # Relationship with Health_Service_Center through association_table
+    workplaces = relationship("Health_Service_Center", secondary=association_table, back_populates="doctors")
 
 class Specialty(Base):
     __tablename__ = 'Specialty'
-
-    id: Mapped[str] = mapped_column(Integer, primary_key=True, index=True)
-    title: Mapped[str] = mapped_column(String(255))
-    code: Mapped[str] = mapped_column(String(255))
-    description: Mapped[Optional[str]] = mapped_column(String(255))
-    deleted: Mapped[bool] = mapped_column(Boolean, default=False)
-
-    doctors: Mapped[List["Doctor"]] = relationship(back_populates="specialty")
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255))
+    code = Column(String(255), unique=True)
+    description = Column(String(255))
+    deleted = Column(Boolean, default=False)
 
 class Health_Service_Center(Base):
     __tablename__ = 'Health_Service_Center'
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255))
+    province = Column(String(255))
+    district = Column(String(255))
+    city = Column(String(255))
+    address = Column(String(255))
+    latitude = Column(String(255))
+    longitude = Column(String(255))
+    phone = Column(String(255))
+    specialties = Column(ARRAY(String(255)))
+    services = Column(ARRAY(String(255)))
+    deleted = Column(Boolean, default=False)
 
-    id: Mapped[str] = mapped_column(Integer, primary_key=True, index=True)
-    title: Mapped[str] = mapped_column(String(255))  #enum
-
-    province: Mapped[str] = mapped_column(String(255))
-    district: Mapped[str] = mapped_column(String(255))
-    city: Mapped[str] = mapped_column(String(255))
-    address: Mapped[str] = mapped_column(String(255))
-
-    phone: Mapped[str] = mapped_column(String(255))
-    specialties: Mapped[List[str]] = mapped_column(ARRAY(String(255)))
-    services: Mapped[List[str]] = mapped_column(ARRAY(String(255)))
-    deleted: Mapped[bool] = mapped_column(Boolean, default=False)
-
-    doctors: Mapped[List["Doctor"]] = relationship(secondary=association_table)
-
+    # Relationship with Doctor through association_table
+    doctor_id = Column(Integer, ForeignKey('Doctor.id'))
+    doctors = relationship("Doctor", secondary=association_table, back_populates="workplaces")
 
 
 

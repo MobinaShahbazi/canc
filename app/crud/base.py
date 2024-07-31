@@ -73,11 +73,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.commit()
         return None
 
-    def filter(self, db: Session,                     #///////
-               model_class_list: list | None = None,
-               filter_by_list: list | None = None,
-               order_by_list: list | None = None,
-               limit: int | None = None,
-               offset: int | None = None):
-        pass
+    def filter_by(self, db: Session, skip: int = 0, limit: int = 100, **filters):
+        return db.query(self.model).filter_by(**{k: v for k, v in filters.items() if v is not None}).offset(skip).limit(limit).all()
+
 

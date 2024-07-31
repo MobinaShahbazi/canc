@@ -11,11 +11,11 @@ class DoctorDAO(APIBaseClass):
     def __init__(self):
         super().__init__()
 
-        self.router.add_api_route('/Doctor', self.get, methods=['GET']) # when a GET request is made to the /workspaces path, the filter() method of the WorkspacesDAO class will be executed.
-        self.router.add_api_route('/Doctor/create', self.create, methods=['POST'])
-        self.router.add_api_route('/Doctor/create_bulk', self.create_bulk, methods=['POST'])
-        self.router.add_api_route('/Doctor/update', self.update, methods=['POST'])
-        self.router.add_api_route('/Doctor/delete', self.delete, methods=['DELETE']) 
+        self.router.add_api_route('/Doctor', self.get, methods=['GET'], tags=['Doctor']) # when a GET request is made to the /workspaces path, the filter() method of the WorkspacesDAO class will be executed.
+        self.router.add_api_route('/Doctor/create', self.create, methods=['POST'], tags=['Doctor'])
+        self.router.add_api_route('/Doctor/create_bulk', self.create_bulk, methods=['POST'], tags=['Doctor'])
+        self.router.add_api_route('/Doctor/update', self.update, methods=['POST'], tags=['Doctor'])
+        self.router.add_api_route('/Doctor/delete', self.delete, methods=['DELETE'], tags=['Doctor'])
 
     def get(self, id, db: Session = Depends(get_db)):
         result = crud.doctor_crud.get(db=db, id=id)
