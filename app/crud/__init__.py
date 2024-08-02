@@ -2,5 +2,6 @@
 from app import models
 from .doctor import doctor_crud
 from .specialty import specialty_crud
-from .health_service_center import health_service_center_crud
+from .medical_center import medical_center_crud
+from .insurer import insurer_crud
 

@@ -4,4 +4,4 @@ from .general import AppInfo
 
 # import api specific endpoints here
 from .doctor import DoctorDAO
-from .health_service_center import HealthCenterDAO
+from .medical_center import MedicalCenterDAO

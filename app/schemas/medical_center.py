@@ -1,7 +1,7 @@
 from typing import Dict, Any, Optional, Type, List
 from pydantic import BaseModel
 
-class HelthServiceCenter(BaseModel):
+class MedicalCenter(BaseModel):
 
     title: str
     province: str
@@ -15,10 +15,10 @@ class HelthServiceCenter(BaseModel):
     services: Optional[List[str]]
     doctor_id: int
 
-class HelthServiceCenterCreate(HelthServiceCenter):
+class MedicalCenterCreate(MedicalCenter):
     pass
 
-class HelthServiceCenterUpdete(HelthServiceCenter):
+class MedicalCenterUpdete(MedicalCenter):
     title: Optional[str] = None
     province: Optional[str] = None
     district: Optional[str] = None

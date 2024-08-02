@@ -6,7 +6,7 @@ from app import schemas, crud
 from . import APIBaseClass
 
 
-class HealthCenterDAO(APIBaseClass):
+class MedicalCenterDAO(APIBaseClass):
 
     def __init__(self):
         super().__init__()
@@ -17,23 +17,23 @@ class HealthCenterDAO(APIBaseClass):
         self.router.add_api_route('/MedicalCenter/delete', self.delete, methods=['DELETE'], tags=['Medical Center'])
 
     def get(self, id, db: Session = Depends(get_db)):
-        result = crud.health_service_center_crud.get(db=db, id=id)
+        result = crud.medical_center_crud.get(db=db, id=id)
         return result
 
-    def create(self, request_body: schemas.HelthServiceCenterCreate, db: Session = Depends(get_db)):
-        result = crud.health_service_center_crud.create(db=db, obj_in=request_body)
+    def create(self, request_body: schemas.MedicalCenterCreate, db: Session = Depends(get_db)):
+        result = crud.medical_center_crud.create(db=db, obj_in=request_body)
         return result
 
-    def update(self, code, request_body: schemas.HelthServiceCenterUpdete, db: Session = Depends(get_db)):
-        result = crud.health_service_center_crud.update(db=db, code=code, obj_in=request_body)
+    def update(self, code, request_body: schemas.MedicalCenterUpdete, db: Session = Depends(get_db)):
+        result = crud.medical_center_crud.update(db=db, code=code, obj_in=request_body)
         return result
 
     def delete(self, id, db: Session = Depends(get_db)):
-        result = crud.health_service_center_crud.delete_logical(db=db, id=id)
+        result = crud.medical_center_crud.delete_logical(db=db, id=id)
         return result
 
-    def upsert_by_code(self, request_body: schemas.HelthServiceCenterUpdete, db: Session = Depends(get_db)):
-        result = crud.health_service_center_crud.upsert_by_code(db=db, obj_in=request_body)
+    def upsert_by_code(self, request_body: schemas.MedicalCenterUpdete, db: Session = Depends(get_db)):
+        result = crud.medical_center_crud.upsert_by_code(db=db, obj_in=request_body)
         return result
 
     def filter(self):

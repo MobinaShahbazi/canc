@@ -7,7 +7,7 @@ from fastapi.encoders import jsonable_encoder
 from app import models, schemas
 
 
-class HeathServiceCenterCRUD(CRUDBase[models.Health_Service_Center, schemas.HelthServiceCenterCreate, schemas.HelthServiceCenterUpdete]):
+class MedicalCenterCRUD(CRUDBase[models.Medical_Center, schemas.MedicalCenterCreate, schemas.MedicalCenterUpdete]):
 
     def get_by_code(self, db: Session, code) -> ModelType:
         return db.query(self.model).filter(self.model.code == code).first()
@@ -15,5 +15,5 @@ class HeathServiceCenterCRUD(CRUDBase[models.Health_Service_Center, schemas.Helt
 
 
 
-health_service_center_crud = HeathServiceCenterCRUD(models.Health_Service_Center)
+medical_center_crud =MedicalCenterCRUD(models.Medical_Center)
 

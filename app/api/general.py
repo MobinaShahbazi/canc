@@ -15,7 +15,7 @@ class AppInfo(APIBaseClass):
         self.app_version = app_config.app_version
 
     async def homepage(self, request: Request):
-        return templates.TemplateResponse("index.html", context={'request': request,          #///////
+        return templates.TemplateResponse("index.html", context={'request': request,
                                                                  'app_name': self.app_name,
                                                                  'app_version': self.app_version})
 

@@ -5,11 +5,18 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from app.db import Base
 
-association_table = Table(
-    "association_table",
+association_table_D_MC = Table(
+    "association_table_D_MC",
     Base.metadata,
-    Column("Health_Service_Center_id", ForeignKey("Health_Service_Center.id")),
+    Column("Medical_Center_id", ForeignKey("Medical_Center.id")),
     Column("Doctor_id", ForeignKey("Doctor.id")),
+)
+
+association_table_I_MC = Table(
+    "association_table_I_MC",
+    Base.metadata,
+    Column("Medical_Center_id", ForeignKey("Medical_Center.id")),
+    Column("Insurer_id", ForeignKey("Insurer.id")),
 )
 
 class Doctor(Base):
@@ -21,8 +28,8 @@ class Doctor(Base):
     description = Column(String(255))
     specialty_id = Column(Integer, ForeignKey('Specialty.id'))  # ForeignKey relationship to Specialty
     deleted = Column(Boolean, default=False)
-    # Relationship with Health_Service_Center through association_table
-    workplaces = relationship("Health_Service_Center", secondary=association_table, back_populates="doctors")
+
+    workplaces = relationship("Medical_Center", secondary=association_table_D_MC, back_populates="doctors")
 
 class Specialty(Base):
     __tablename__ = 'Specialty'
@@ -32,8 +39,17 @@ class Specialty(Base):
     description = Column(String(255))
     deleted = Column(Boolean, default=False)
 
-class Health_Service_Center(Base):
-    __tablename__ = 'Health_Service_Center'
+class Insurer(Base):
+    __tablename__ = 'Insurer'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255))
+    code = Column(String(255), unique=True)
+
+    medical_centers = relationship("Medical_Center", secondary=association_table_I_MC, back_populates="insurers")
+
+
+class Medical_Center(Base):
+    __tablename__ = 'Medical_Center'
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255))
     province = Column(String(255))
@@ -47,9 +63,10 @@ class Health_Service_Center(Base):
     services = Column(ARRAY(String(255)))
     deleted = Column(Boolean, default=False)
 
-    # Relationship with Doctor through association_table
     doctor_id = Column(Integer, ForeignKey('Doctor.id'))
-    doctors = relationship("Doctor", secondary=association_table, back_populates="workplaces")
+    doctors = relationship("Doctor", secondary=association_table_D_MC, back_populates="workplaces")
+    insurers = relationship("Insurer", secondary=association_table_I_MC, back_populates="medical_centers")
+
 
 
 

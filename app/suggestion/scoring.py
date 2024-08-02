@@ -8,12 +8,12 @@ from app.models import Doctor
 from app.schemas import Doctor
 
 
-def distance(loc, province, specialty):
+def distance(loc, province, specialty):  # patient insurance add
 
     res = get_db()
     db = next(res)
 
-    filtered_doctors = doctor_crud.filter_by(db, address=province, limit=10)
+    filtered_doctors = doctor_crud.filter_by(db, name="naghme", limit=10)
 
     # Print out the filtered doctors
     for doctor in filtered_doctors:
