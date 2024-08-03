@@ -26,9 +26,10 @@ class Doctor(Base):
     lastname = Column(String(255))
     code = Column(String(255), unique=True)
     description = Column(String(255))
-    specialty_id = Column(Integer, ForeignKey('Specialty.id'))  # ForeignKey relationship to Specialty
     deleted = Column(Boolean, default=False)
 
+    specialty_id = Column(Integer, ForeignKey('Specialty.id'))
+    specialty = relationship("Specialty", back_populates="doctor_ids")
     workplaces = relationship("Medical_Center", secondary=association_table_D_MC, back_populates="doctors")
 
 class Specialty(Base):
@@ -39,6 +40,8 @@ class Specialty(Base):
     description = Column(String(255))
     deleted = Column(Boolean, default=False)
 
+    doctor_ids = relationship("Doctor", back_populates="specialty")
+
 class Insurer(Base):
     __tablename__ = 'Insurer'
     id = Column(Integer, primary_key=True, index=True)
@@ -46,7 +49,6 @@ class Insurer(Base):
     code = Column(String(255), unique=True)
 
     medical_centers = relationship("Medical_Center", secondary=association_table_I_MC, back_populates="insurers")
-
 
 class Medical_Center(Base):
     __tablename__ = 'Medical_Center'
