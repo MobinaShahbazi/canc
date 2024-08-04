@@ -25,7 +25,7 @@ def findOptions(db, loc, province, specialty, patient_insurer, patient_loc):
     min_val = min(distances)
 
     results = db.execute(stmt)
-    for row in results:
+    for row in results:  # additional info will be added to options
         options.append([row[0], row[1], findScore(row[5], row[2], distance(row[3], row[4], patient_loc), province, patient_insurer, max_val, min_val)])
 
     sorted_options = sorted(options, key=lambda x: x[2], reverse=True)
@@ -63,6 +63,6 @@ def findScore(province, insurer, distance, patient_prov, patient_insurer, max_va
         x2 = 0
 
     x3 = (distance - min_val) / (max_val - min_val)
-    score = 1*x1 + 1*x2 + 1*x3
+    score = 1*x1 + 1*x2 - 1*x3
     return score
 

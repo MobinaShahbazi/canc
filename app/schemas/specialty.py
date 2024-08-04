@@ -12,6 +12,6 @@ class SpecialtyCreate(Specialty):
     pass
 
 class SpecialtyUpdate(Specialty):
-    code: Optional[str] = None
-    title: Optional[str] = None
-    description: Optional[str] = None
+    code: Optional[str]
+    title: Optional[str]
+    description: Optional[str]

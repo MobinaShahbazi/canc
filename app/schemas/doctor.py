@@ -19,9 +19,9 @@ class DoctorCreateBulk(BaseModel):
 
 class DoctorUpdate(Doctor):
 
-    name: Optional[str] = None
-    lastname: Optional[str] = None
-    code: Optional[str] = None
-    description: Optional[str] = None
-    specialty_id: Optional[int] = None
+    name: Optional[str]
+    lastname: Optional[str]
+    code: Optional[str]
+    description: Optional[str]
+    specialty_id: Optional[int] 
 
