@@ -9,7 +9,7 @@ def findOptions(db, loc, province, specialty, patient_insurer, patient_loc):
     options = []
     distances = []
     stmt = select(Doctor.id, Medical_Center.id, Insurer.code, Medical_Center.latitude, Medical_Center.longitude,
-                  Medical_Center.province).select_from(Doctor) \
+                  Medical_Center.province, Doctor.rate).select_from(Doctor) \
         .join(Specialty, Doctor.specialty_id == Specialty.id) \
         .join(association_table_D_MC).join(Medical_Center) \
         .join(association_table_I_MC).join(Insurer) \
@@ -26,7 +26,7 @@ def findOptions(db, loc, province, specialty, patient_insurer, patient_loc):
 
     results = db.execute(stmt)
     for row in results:  # additional info will be added to options
-        options.append([row[0], row[1], findScore(row[5], row[2], distance(row[3], row[4], patient_loc), province, patient_insurer, max_val, min_val)])
+        options.append([row[0], row[1], findScore(row[5], row[2], distance(row[3], row[4], patient_loc), province, patient_insurer, row[6], max_val, min_val)])
 
     sorted_options = sorted(options, key=lambda x: x[2], reverse=True)
     seen_first_parts = {}
@@ -40,6 +40,7 @@ def findOptions(db, loc, province, specialty, patient_insurer, patient_loc):
     for item in output_list:
         print(item)
     db.close()
+    return output_list
 
 
 def distance(lat, lon, patient_loc) -> float:
@@ -51,7 +52,7 @@ def distance(lat, lon, patient_loc) -> float:
     return result
 
 
-def findScore(province, insurer, distance, patient_prov, patient_insurer, max_val, min_val):
+def findScore(province, insurer, distance, patient_prov, patient_insurer, dr_rate, max_val, min_val):
 
     if province == patient_prov:
         x1 = 1
@@ -63,6 +64,6 @@ def findScore(province, insurer, distance, patient_prov, patient_insurer, max_va
         x2 = 0
 
     x3 = (distance - min_val) / (max_val - min_val)
-    score = 1*x1 + 1*x2 - 1*x3
+    score = 1*x1 + 1*x2 - 1*x3 + 1*dr_rate
     return score
 
