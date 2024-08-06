@@ -1,6 +1,7 @@
 import json
+import datetime
 
-from sqlalchemy import Column, Integer, String, Boolean, ARRAY, Table, ForeignKey, TypeDecorator
+from sqlalchemy import Column, Integer, String, Boolean, ARRAY, Table, ForeignKey, TypeDecorator, Float, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from app.db import Base
@@ -24,11 +25,15 @@ class Doctor(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
     lastname = Column(String(255))
-    code = Column(String(255), unique=True)
-    description = Column(String(255))
+    nezamCode = Column(String(255), unique=True)
+    gender = Column(String(255))
+    rate = Column(Float)
+    createTime = Column(DateTime, default=datetime.datetime.utcnow)
+    lastModified = Column(DateTime, default=datetime.datetime.utcnow)
+    enabled = Column(Boolean, default=True)
     deleted = Column(Boolean, default=False)
 
-    specialty_id = Column(Integer, ForeignKey('Specialty.id'))
+    specialty_code = Column(String(255), ForeignKey('Specialty.code'))
     specialty = relationship("Specialty", back_populates="doctor_ids")
     workplaces = relationship("Medical_Center", secondary=association_table_D_MC, back_populates="doctors")
 
@@ -55,7 +60,6 @@ class Medical_Center(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255))
     province = Column(String(255))
-    district = Column(String(255))
     city = Column(String(255))
     address = Column(String(255))
     latitude = Column(String(255))
@@ -63,9 +67,13 @@ class Medical_Center(Base):
     phone = Column(String(255))
     specialties = Column(ARRAY(String(255)))
     services = Column(ARRAY(String(255)))
+    createTime = Column(DateTime, default=datetime.datetime.utcnow)
+    lastModified = Column(DateTime, default=datetime.datetime.utcnow)
+    enabled = Column(Boolean, default=True)
     deleted = Column(Boolean, default=False)
 
-    doctor_id = Column(Integer, ForeignKey('Doctor.id'))
+    # doctor_id = Column(Integer, ForeignKey('Doctor.id'))
+    doctor_id = Column(Integer)  # shall be removed
     doctors = relationship("Doctor", secondary=association_table_D_MC, back_populates="workplaces")
     insurers = relationship("Insurer", secondary=association_table_I_MC, back_populates="medical_centers")
 

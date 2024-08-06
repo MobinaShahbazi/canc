@@ -5,7 +5,6 @@ class MedicalCenter(BaseModel):
 
     title: str
     province: str
-    district: str
     city: str
     address: str
     latitude: str
@@ -13,7 +12,7 @@ class MedicalCenter(BaseModel):
     phone: str
     specialties: Optional[List[str]]
     services: Optional[List[str]]
-    doctor_id: int
+    doctor_id: str
 
 class MedicalCenterCreate(MedicalCenter):
     pass
@@ -21,7 +20,6 @@ class MedicalCenterCreate(MedicalCenter):
 class MedicalCenterUpdete(MedicalCenter):
     title: Optional[str]
     province: Optional[str]
-    district: Optional[str]
     city: Optional[str]
     address: Optional[str]
     latitude: Optional[str]
@@ -29,4 +27,4 @@ class MedicalCenterUpdete(MedicalCenter):
     phone: Optional[str]
     specialties: Optional[List[str]]
     services: Optional[List[str]]
-    doctor_id: Optional[List[int]]
+    doctor_id: Optional[List[str]]

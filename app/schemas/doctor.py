@@ -6,9 +6,10 @@ class Doctor(BaseModel):
 
     name: str
     lastname: str
-    code: str
-    description: str
-    specialty_id: int
+    nezamCode: str
+    gender: str
+    rate: float
+    specialty_code: str
 
 class DoctorCreate(Doctor):
     pass
@@ -21,7 +22,8 @@ class DoctorUpdate(Doctor):
 
     name: Optional[str]
     lastname: Optional[str]
-    code: Optional[str]
-    description: Optional[str]
-    specialty_id: Optional[int] 
+    nezamCode: Optional[str]
+    gender: Optional[str]
+    rate: Optional[float]
+    specialty_code: Optional[str]
 
