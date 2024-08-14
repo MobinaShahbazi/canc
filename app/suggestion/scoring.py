@@ -3,7 +3,7 @@ from sqlalchemy import select
 import haversine as hs
 from haversine import Unit
 from app.models import Doctor
-from app.models.sumit import association_table_D_MC, Medical_Center, association_table_I_MC, Insurer, Specialty
+from app.models.association import association_table_D_MC, Medical_Center, association_table_I_MC, Insurer, Specialty
 
 
 def findOptions(db, province, city, specialty, patient_insurer, patient_loc):

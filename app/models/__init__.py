@@ -1,6 +1,6 @@
-from .sumit import Doctor
-from .sumit import Specialty
-from .sumit import Medical_Center
-from .sumit import Insurer
+from .doctor import Doctor
+from .specialty import Specialty
+from .medical_center import Medical_Center
+from .insurer import Insurer
 # from .workspaces import Workspaces
 # from .ws_data import WSData
