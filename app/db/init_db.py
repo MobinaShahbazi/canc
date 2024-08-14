@@ -48,16 +48,21 @@ def init_Insurer(db: Session) -> None:
 
 def init_Doctor(db: Session) -> None:
 
-    path = r'E:\term6\internship\Projects\web scraping\doctors_DoctorNext.xlsx'
+    path = r'E:\term6\internship\Projects\phaze1\app\web scraping\doctors_DoctorNext.xlsx'
     dataframe = pd.read_excel(path)
+    na_df = dataframe.isna()
+    # print(na_df)
     dmn_model_files = []
 
-    for i in range(300):
+    for i in range(345):
         name = dataframe.iloc[i, 0]
         lastname = dataframe.iloc[i, 1]
         code = dataframe.iloc[i, 2]
         gender = dataframe.iloc[i, 3]
-        rate = dataframe.iloc[i, 5]
+        if not na_df.iloc[i, 5]:
+            rate = dataframe.iloc[i, 5]
+        else:
+            rate = 2.5
         specialty_id = dataframe.iloc[i, 6]
         record = {
             'name': str(name),
@@ -74,11 +79,11 @@ def init_Doctor(db: Session) -> None:
         crud.doctor_crud.create(db=db, obj_in=dmn_in)
 
 def init_Medical_Center(db: Session) -> None:
-    path = r'E:\term6\internship\Projects\web scraping\offices_DoctorNext.xlsx'
+    path = r'E:\term6\internship\Projects\phaze1\app\web scraping\offices_DoctorNext.xlsx'
     dataframe = pd.read_excel(path)
     dmn_model_files = []
 
-    for i in range(10):
+    for i in range(282):
         title = dataframe.iloc[i, 3]
         province = dataframe.iloc[i, 4]
         city = dataframe.iloc[i, 5]

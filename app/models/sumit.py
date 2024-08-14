@@ -76,13 +76,3 @@ class Medical_Center(Base):
     doctor_id = Column(Integer)  # shall be removed
     doctors = relationship("Doctor", secondary=association_table_D_MC, back_populates="workplaces")
     insurers = relationship("Insurer", secondary=association_table_I_MC, back_populates="medical_centers")
-
-
-
-
-
-
-
-
-
-

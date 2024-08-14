@@ -12,7 +12,7 @@ class MedicalCenter(BaseModel):
     phone: str
     specialties: Optional[List[str]]
     services: Optional[List[str]]
-    doctor_id: str
+    doctor_id: str             # -> int
 
 class MedicalCenterCreate(MedicalCenter):
     pass
@@ -27,4 +27,4 @@ class MedicalCenterUpdete(MedicalCenter):
     phone: Optional[str]
     specialties: Optional[List[str]]
     services: Optional[List[str]]
-    doctor_id: Optional[List[str]]
+    doctor_id: Optional[List[str]]  # -> int
