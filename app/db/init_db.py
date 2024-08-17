@@ -1,14 +1,11 @@
 import pandas as pd
-
 from sqlalchemy.orm import Session
 from app import schemas
-from fastapi import Depends
-from app.dependencies import get_db
 from app import crud
 
 def init_Speciaity(db: Session) -> None:
 
-    path = r'E:\term6\internship\Projects\temp\spe.xlsx'
+    path = r'static\external\spe.xlsx'
     dataframe = pd.read_excel(path)
     dmn_model_files = []
 
@@ -29,7 +26,7 @@ def init_Speciaity(db: Session) -> None:
 
 def init_Insurer(db: Session) -> None:
 
-    path = r'E:\term6\internship\Projects\temp\insurance.xlsx'
+    path = r'static\external\insurance.xlsx'
     dataframe = pd.read_excel(path)
     dmn_model_files = []
 
@@ -48,7 +45,7 @@ def init_Insurer(db: Session) -> None:
 
 def init_Doctor(db: Session) -> None:
 
-    path = r'E:\term6\internship\Projects\phaze1\app\web scraping\doctors_DoctorNext.xlsx'
+    path = r'static\external\doctors_DoctorNext.xlsx'
     dataframe = pd.read_excel(path)
     na_df = dataframe.isna()
     # print(na_df)
@@ -79,7 +76,7 @@ def init_Doctor(db: Session) -> None:
         crud.doctor_crud.create(db=db, obj_in=dmn_in)
 
 def init_Medical_Center(db: Session) -> None:
-    path = r'E:\term6\internship\Projects\phaze1\app\web scraping\offices_DoctorNext.xlsx'
+    path = r'static\external\offices_DoctorNext.xlsx'
     dataframe = pd.read_excel(path)
     dmn_model_files = []
 
