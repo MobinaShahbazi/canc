@@ -9,7 +9,7 @@ def findOptions(db, province, city, specialty, patient_insurer, patient_loc):
     options = []
     distances = []
     stmt = select(Medical_Center.province, Medical_Center.city, Medical_Center.address, Medical_Center.latitude, Medical_Center.longitude,
-                  ).select_from(Medical_Center)
+                  Medical_Center.title).select_from(Medical_Center)
 
     results = db.execute(stmt)
     for row in results:
@@ -22,21 +22,15 @@ def findOptions(db, province, city, specialty, patient_insurer, patient_loc):
 
     results = db.execute(stmt)
     for row in results:  # additional info will be added to options
-        options.append([row[0], row[1], findScore(row[0], row[1], distance(row[3], row[4], patient_loc), province, city, max_val, min_val), row[2]])
+        options.append({"Name": row[5], "Province": row[0], "City": row[1],"address": row[2], "Score":
+            findScore(row[0], row[1], distance(row[3], row[4], patient_loc), province, city, max_val, min_val)})
 
-    sorted_options = sorted(options, key=lambda x: x[2], reverse=True)
-    seen_first_parts = {}
-    output_list = []
-    for item in sorted_options:  # remove repetitive doctors
-        first_part = item[0]
-        # if first_part not in seen_first_parts:
-        seen_first_parts[first_part] = True
-        output_list.append(item)
+    sorted_options = sorted(options, key=lambda x: x["Score"], reverse=True)
 
-    for item in output_list:
+    for item in sorted_options:
         print(item)
     db.close()
-    return output_list
+    return sorted_options
 
 
 def distance(lat, lon, patient_loc) -> float:

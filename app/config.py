@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 class CommonSettings(BaseSettings):
 
     # Basic application configs
-    app_port: int = 42420
+    app_port: int = 42421
 
     # General application configs
     app_name: str = 'Development'
